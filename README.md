@@ -199,12 +199,26 @@ The screens have been implemented against the backend's actual API contract by r
 
 ### Integration Testing
 
-At the time of completing the frontend, the backend was not running, so the complete application flow has **not yet been tested end-to-end against the live API**.
+The patient flow has been verified end-to-end against the running backend:
 
-The recommended next step is to start the backend and verify at least the following flows:
+| Check | Result |
+| ----- | ------ |
+| `POST /auth/signup` and `POST /auth/login` | Return `{ token, fullName, userId, role }` |
+| `GET /doctors` | `200 OK` with the expected payload |
+| `GET /appointments/{doctorId}?date=` | Slots serialize as `{ time, available }` |
+| `POST /appointments` | `201 Created`, and the booked slot flips to `available: false` |
+| `GET /appointments/my` | Returns the new appointment |
+| `PATCH /appointments/{id}/cancel` | `200 OK`, status becomes `CANCELLED` |
+| Wrong `endTime` for the doctor's duration | Rejected with `400` |
+| Role-guarded endpoint from the wrong role | Rejected with `403` |
+| Request without a token | Rejected with `401` |
+| CORS preflight from `http://localhost:5173` | Allows the `Authorization` header |
 
-1. Login with each user role.
-2. Search for a doctor as a patient.
-3. Book an appointment as a patient.
-4. Confirm the appointment as a receptionist.
-5. Complete the appointment as a doctor.
+All error responses follow the `{ message, value, now }` shape the client parses.
+
+Still unverified, since both require credentials for those roles:
+
+* The boolean key returned by `GET /auth/users` — the client accepts either
+  `isActive` or `active`, so it works regardless.
+* `DayOfWeek` serialization on `POST /doctors/schedules`, expected to be
+  `"MONDAY"`.
