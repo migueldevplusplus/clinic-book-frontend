@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api'
+// `||` rather than `??`: a build that declares VITE_API_URL without a usable
+// value yields an empty string, which would otherwise become the base URL and
+// send every request to the site's own origin.
+const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api'
 
 // A free-tier backend sleeps when idle and can take over two minutes to wake,
 // so the timeout is generous rather than the usual few seconds.
