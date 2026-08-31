@@ -2,7 +2,9 @@ import axios from 'axios'
 
 const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api'
 
-export const api = axios.create({ baseURL })
+// A free-tier backend sleeps when idle and can take over two minutes to wake,
+// so the timeout is generous rather than the usual few seconds.
+export const api = axios.create({ baseURL, timeout: 180000 })
 
 // The token lives in memory only (never localStorage), so it is held here and
 // kept in sync by AuthContext rather than read from storage on each request.
@@ -54,7 +56,7 @@ export function errorMessage(error, fallback = 'Ocurrió un error inesperado.') 
     return fallback
   }
   if (error?.request) {
-    return 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo en el puerto 8080.'
+    return 'No se pudo conectar con el servidor. Puede estar iniciando tras un periodo de inactividad; espera un momento y reintenta.'
   }
   return fallback
 }

@@ -2,6 +2,16 @@
 
 Web interface for **ClinicBook**, a medical appointment management system. It consumes the REST API provided by the [ClinicBook backend](https://github.com/migueldevplusplus/clinic-book-app), built with Spring Boot and JWT authentication, and displays a different interface depending on the authenticated user's role.
 
+## Live Demo
+
+| | URL |
+| --- | --- |
+| Frontend (Vercel) | <https://clinic-book-frontend.vercel.app> |
+| API (Render) | <https://clinic-book-app.onrender.com/api> |
+
+The API runs on a free tier that sleeps when idle, so the first request after a
+period of inactivity can take up to two minutes while the service wakes up.
+
 ## Stack
 
 * **React 18** + **Vite 5**
@@ -41,9 +51,12 @@ To use a different API URL, copy `.env.example` to `.env` and update:
 VITE_API_URL=http://localhost:8080/api
 ```
 
-The backend already has CORS configured for `http://localhost:5173`, so no proxy or additional configuration is required.
+The backend allows `http://localhost:5173` by default, so no proxy or extra
+configuration is needed for local development.
 
-If the frontend runs on a different port, that origin must also be added to the backend's `SecurityConfig`.
+Serving the frontend from any other origin — a different port, or the deployed
+site — means adding that origin to the backend's `CORS_ALLOWED_ORIGINS`
+environment variable, which takes a comma-separated list.
 
 ## Authentication
 
