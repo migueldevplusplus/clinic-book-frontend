@@ -50,14 +50,17 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen lg:flex">
-      {/* Desktop sidebar */}
-      <aside className="hidden w-64 shrink-0 border-r border-ink-200 bg-white lg:flex lg:flex-col">
+      {/* Desktop sidebar. Pinned to the viewport rather than growing with the
+          page, so the account controls at its foot stay reachable on long lists
+          instead of sitting at the bottom of the document. */}
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-ink-200 bg-white lg:flex lg:flex-col">
         <div className="flex items-center gap-2.5 px-5 py-5">
           <Logo />
           <span className="text-lg font-bold tracking-tight text-ink-900">ClinicBook</span>
         </div>
 
-        <nav className="flex-1 space-y-1 px-3">
+        {/* Scrolls on its own if the links ever outgrow a short viewport. */}
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3">
           {links.map(({ to, label, icon: Icon }) => (
             <NavLink key={to} to={to} end className={navLinkClass}>
               <Icon className="h-[18px] w-[18px]" />
@@ -86,8 +89,8 @@ export default function AppLayout() {
         </div>
       </aside>
 
-      {/* Mobile header */}
-      <header className="flex items-center justify-between border-b border-ink-200 bg-white px-4 py-3 lg:hidden">
+      {/* Mobile header, pinned for the same reason as the sidebar. */}
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-ink-200 bg-white px-4 py-3 lg:hidden">
         <div className="flex items-center gap-2">
           <Logo className="h-8 w-8" />
           <span className="font-bold text-ink-900">ClinicBook</span>
