@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { disableUser, listUsers, registerReceptionist } from '../../api/auth'
 import { registerDoctor } from '../../api/doctors'
 import { useAsync } from '../../hooks/useAsync'
@@ -12,7 +13,9 @@ import { Field, Input, Select } from '../../components/ui/Field'
 import {
   EmptyState, ErrorState, InlineError, InlineSuccess, LoadingRows,
 } from '../../components/ui/States'
-import { PlusIcon, ShieldIcon, StethoscopeIcon, UsersIcon } from '../../components/ui/Icons'
+import {
+  ClipboardIcon, PlusIcon, ShieldIcon, StethoscopeIcon, UsersIcon,
+} from '../../components/ui/Icons'
 
 const ROLE_STYLES = {
   SUPER_ADMIN: 'bg-purple-50 text-purple-700 ring-purple-600/20',
@@ -220,6 +223,17 @@ export default function AdminPage() {
                 >
                   {ROLE_LABELS[entry.role] ?? entry.role}
                 </span>
+
+                {/* A doctor's id is their user id, so the schedule page opens
+                    straight onto this row's doctor. */}
+                {entry.role === 'DOCTOR' && (
+                  <Link to={`/staff/doctor-schedules?doctorId=${entry.userId}`}>
+                    <Button variant="secondary" size="sm">
+                      <ClipboardIcon className="h-4 w-4" />
+                      Horarios
+                    </Button>
+                  </Link>
+                )}
 
                 {entry.active ? (
                   <Button

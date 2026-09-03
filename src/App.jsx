@@ -20,6 +20,7 @@ import AppointmentsPage from './pages/receptionist/AppointmentsPage'
 import NewAppointmentPage from './pages/receptionist/NewAppointmentPage'
 
 import AdminPage from './pages/admin/AdminPage'
+import DoctorSchedulesPage from './pages/staff/DoctorSchedulesPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 /** Sends "/" to wherever the current role belongs. */
@@ -84,6 +85,16 @@ export default function App() {
         <Route
           path="/receptionist/appointments/new"
           element={<ProtectedRoute allow={['RECEPTIONIST']}><NewAppointmentPage /></ProtectedRoute>}
+        />
+
+        {/* Shared by the two roles that manage doctors on their behalf */}
+        <Route
+          path="/staff/doctor-schedules"
+          element={
+            <ProtectedRoute allow={['SUPER_ADMIN', 'RECEPTIONIST']}>
+              <DoctorSchedulesPage />
+            </ProtectedRoute>
+          }
         />
 
         {/* Admin */}

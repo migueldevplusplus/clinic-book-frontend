@@ -22,8 +22,12 @@ const NAV_BY_ROLE = {
   RECEPTIONIST: [
     { to: '/receptionist/appointments', label: 'Todas las citas', icon: CalendarIcon },
     { to: '/receptionist/appointments/new', label: 'Nueva cita', icon: ClipboardIcon },
+    { to: '/staff/doctor-schedules', label: 'Horarios', icon: ClockIcon },
   ],
-  SUPER_ADMIN: [{ to: '/admin', label: 'Administración', icon: ShieldIcon }],
+  SUPER_ADMIN: [
+    { to: '/admin', label: 'Administración', icon: ShieldIcon },
+    { to: '/staff/doctor-schedules', label: 'Horarios', icon: ClockIcon },
+  ],
 }
 
 function initialsOf(name = '') {
