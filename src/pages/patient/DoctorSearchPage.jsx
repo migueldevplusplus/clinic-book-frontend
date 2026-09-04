@@ -83,12 +83,15 @@ export default function DoctorSearchPage() {
             {doctors.length} {doctors.length === 1 ? 'doctor disponible' : 'doctores disponibles'}
           </p>
 
-          <ul className="space-y-3">
+          {/* A doctor card carries three short fields, so a full-width row wastes
+              most of a desktop line and pushes the roster off screen. Choosing a
+              doctor is a comparison, which is easier the more of them fit. */}
+          <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {doctors.map((doctor) => (
               <li key={doctor.doctorId}>
                 <Link
                   to={`/doctors/${doctor.doctorId}`}
-                  className="card flex items-center gap-4 p-4 transition hover:border-brand-300 hover:shadow-lift"
+                  className="card flex h-full items-center gap-4 p-4 transition hover:border-brand-300 hover:shadow-lift"
                 >
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-50 to-brand-100 text-brand-700">
                     <StethoscopeIcon />
@@ -96,18 +99,15 @@ export default function DoctorSearchPage() {
 
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold text-ink-900">{doctor.fullName}</p>
-                    <p className="mt-0.5 text-sm text-ink-500">
+                    <p className="mt-0.5 truncate text-sm text-ink-500">
                       {specialtyLabel(doctor.specialty)}
-                      <span className="mx-1.5 text-ink-300">·</span>
+                    </p>
+                    <p className="mt-0.5 text-xs text-ink-400">
                       {doctor.consultationDurationMinutes} min por consulta
                     </p>
                   </div>
 
-                  <span className="hidden items-center gap-1 text-sm font-medium text-brand-700 sm:inline-flex">
-                    Ver perfil
-                    <ChevronRightIcon className="h-4 w-4" />
-                  </span>
-                  <ChevronRightIcon className="h-5 w-5 text-ink-300 sm:hidden" />
+                  <ChevronRightIcon className="h-5 w-5 shrink-0 text-ink-300" />
                 </Link>
               </li>
             ))}
